@@ -257,7 +257,7 @@ class Instance:
 
 # Usage
 if __name__ == "__main__":
-    instance = Instance("instance_0116_131933_Z1.txt")
+    instance = Instance("instances_exemple/instance_0116_131933_Z1.txt")
     print(instance)
     print(f"\nFirst 2 orders: {instance.orders[:2]}")
     print(f"\nFirst 5 arcs: {instance.arcs[:5]}")
