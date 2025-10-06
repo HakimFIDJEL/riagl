@@ -1,3 +1,6 @@
+import pickle
+
+
 class Instance:
     def __init__(self, filename=None):
         # Initialize all attributes
@@ -262,3 +265,9 @@ if __name__ == "__main__":
     print(f"\nFirst 2 orders: {instance.orders[:2]}")
     print(f"\nFirst 5 arcs: {instance.arcs[:5]}")
     print(f"\nFirst 3 locations: {instance.location_coordinates[:3]}")
+
+    # Écrire l'objet Instance dans un fichier pickle
+    with open("instance.pkl", "wb") as f:
+        pickle.dump(instance, f)
+
+    print("Instance serialisée dans instance.pkl")
