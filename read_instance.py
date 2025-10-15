@@ -56,15 +56,16 @@ class Instance:
                 i += 1  # Skip comment line
                 if i < len(lines) and lines[i].startswith('//Idx'):
                     i += 1  # Skip header line
-                
+
                 # Read all products
                 while i < len(lines) and not lines[i].startswith('//'):
                     parts = list(map(int, lines[i].split()))
-                    if len(parts) >= 4:  # Idx, Location, Dim1, Dim2, ...
+                    if len(parts) >= 4:  # Idx, Location, Weight, Volume
                         product = {
                             'idx': parts[0],
                             'location': parts[1],
-                            'dimensions': parts[2:]
+                            'weight': parts[2],
+                            'volume': parts[3]
                         }
                         self.products.append(product)
                     i += 1
@@ -87,13 +88,24 @@ class Instance:
                             'nb_prod_in_order': parts[2],
                             'products': []
                         }
-                        # Parse product-quantity pairs
+                        # Parse product-quantity pairs with detailed product info
                         for j in range(3, len(parts), 2):
                             if j + 1 < len(parts):
-                                order['products'].append({
-                                    'product_idx': parts[j],
-                                    'quantity': parts[j + 1]
-                                })
+                                prod_idx = parts[j]
+                                quantity = parts[j + 1]
+                                # Trouver le produit correspondant dans self.products
+                                product_info = next((p for p in self.products if p['idx'] == prod_idx), None)
+                                if product_info:
+                                    order['products'].append({
+                                        'quantity': quantity,
+                                        'product': product_info
+                                    })
+                                else:
+                                    # En cas d’erreur (produit non trouvé)
+                                    order['products'].append({
+                                        'quantity': quantity,
+                                        'product': {'idx': prod_idx, 'error': 'Product not found'}
+                                    })
                         self.orders.append(order)
                     i += 1
                 continue
@@ -257,7 +269,7 @@ class Instance:
 
 # Usage
 if __name__ == "__main__":
-    instance = Instance("instances_exemple/instance_0116_131933_Z1.txt")
+    instance = Instance("instances_exemple/instance_0116_131933_Z2.txt")
     print(instance)
     print(f"\nFirst 2 orders: {instance.orders[:2]}")
     print(f"\nFirst 5 arcs: {instance.arcs[:5]}")
