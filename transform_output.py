@@ -2,34 +2,34 @@ import os
 
 # Produit dans un carton
 class BoxeProduct:
-    def __init__(self, productId: int, quantity: int) -> None:
+    def __init__(self, product_id: int, quantity: int) -> None:
         # (integer) Identifiant du produit
-        self.productId : int = productId
+        self.product_id : int = product_id
         # (integer) Quantité de produit mis dans le carton
         self.quantity : int = quantity
 
 # Carton
 class Boxe:
-    def __init__(self, id: int, orderId: int, weight: int, volume: int, boxeProducts: list[BoxeProduct]) -> None:
+    def __init__(self, id: int, order_id: int, weight: int, volume: int, boxe_products: list[BoxeProduct]) -> None:
         # (integer) Identifiant unique du carton
         self.id : int = id
         # (integer) Identifiant de la commande
-        self.orderId : int = orderId
+        self.order_id : int = order_id
         # (integer) Poids du carton
         self.weight : int = weight
         # (integer) Volume du carton
         self.volume : int = volume
         # (BoxeProduct) Information sur les produits dans un carton
-        self.boxeProducts : list[BoxeProduct] = boxeProducts
+        self.boxe_products : list[BoxeProduct] = boxe_products
 
 # Commande  
 class Order:
-    def __init__(self, id: int, nbrBoxes: int) -> None:
+    def __init__(self, id: int, nbr_boxes: int) -> None:
         # (integer) Identifiant de la commande
         self.id : int = id
         # (integer) Nombre de cartons associés
-        self.nbrBoxes : int = nbrBoxes
-        
+        self.nbr_boxes : int = nbr_boxes
+
 # Tournée
 class Tour:
     def __init__(self, id: int, boxes: list[Boxe]) -> None:
@@ -40,15 +40,15 @@ class Tour:
 
 # Variable de sortie
 class Output:
-    def __init__(self, filename: str, travelledDistance: int, crossedLocations: int, avgWeight: int, avgVolume: int, tours: list[Tour], orders: list[Order]) -> None:
+    def __init__(self, filename: str, travelled_distance: int, crossed_locations: int, avg_weight: int, avg_volume: int, tours: list[Tour], orders: list[Order]) -> None:
         # (integer) Distance parcourue au total par le picker
-        self.travelledDistance : int = travelledDistance
+        self.travelled_distance : int = travelled_distance
         # (integer) Nombre de points où le picker s’est arrêté / a traversé
-        self.crossedLocations : int = crossedLocations
+        self.crossed_locations : int = crossed_locations
         # (integer) Pourcentage de poids des colis par rapport au max
-        self.avgWeight : int = avgWeight
+        self.avg_weight : int = avg_weight
         # (integer) Pourcentage de volume des colis par rapport au max
-        self.avgVolume : int = avgVolume
+        self.avg_volume : int = avg_volume
         # (Tours) Informations sur les tournées
         self.tours : list[Tour] = tours
         # (Orders) Information sur les commandes
@@ -57,7 +57,7 @@ class Output:
         self.filename = filename
 
     def __str__(self) -> str:
-        return f"Output(distance={self.travelledDistance}, stops={self.crossedLocations}, boxes={len(self.boxes)}, tournées={len(self.tours)})"
+        return f"Output(distance={self.travelled_distance}, stops={self.crossed_locations}, orders={len(self.orders)}, tournées={len(self.tours)})"
     
     def _solution_path(self) -> str:
         # nomInstance.txt -> solutions/nomInstance_sol.txt
@@ -93,10 +93,10 @@ class Output:
             lines.append("//IdColis IdCommandeInColis NbProducts IdProd1 QtyProd1 IdProd2 QtyProd2 ...")
 
             for box in tour.boxes:
-                nb_products = len(box.boxeProducts)
-                parts = [str(box.id), str(box.orderId), str(nb_products)]
-                for bp in box.boxeProducts:
-                    parts.extend([str(bp.productId), str(bp.quantity)])
+                nb_products = len(box.boxe_products)
+                parts = [str(box.id), str(box.order_id), str(nb_products)]
+                for bp in box.boxe_products:
+                    parts.extend([str(bp.product_id), str(bp.quantity)])
                 # l’exemple a un espace final, on le reproduit
                 lines.append(" ".join(parts) + " ")
 
