@@ -1,6 +1,6 @@
 from knowledge_sources.abstract_knowledge_source import AbstractKnowledgeSource
 
-class Read(AbstractKnowledgeSource):
+class ReadInstance(AbstractKnowledgeSource):
     """
     Reads an instance file, and stores it in Blackboard.
 
