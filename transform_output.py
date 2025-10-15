@@ -60,10 +60,15 @@ class Output:
         return f"Output(distance={self.travelled_distance}, stops={self.crossed_locations}, orders={len(self.orders)}, tournées={len(self.tours)})"
     
     def _solution_path(self) -> str:
-        # nomInstance.txt -> solutions/nomInstance_sol.txt
+        # nomInstance.txt -> <repo_root>/solutions/nomInstance_sol.txt
+        # On place la solution dans le dossier 'solutions' sibling des dossiers d'instances
         base = os.path.basename(self.filename)
         root, _ = os.path.splitext(base)
-        return os.path.join("solutions", f"{root}_sol.txt")
+        # Folder containing the instance file (e.g., riagl/instances_exemple)
+        inst_dir = os.path.dirname(self.filename)
+        # Project root assumed to be parent of instances folder
+        project_root = os.path.normpath(os.path.join(inst_dir, os.pardir))
+        return os.path.join(project_root, "solutions", f"{root}_sol.txt")
     
     def write_solution_file(self) -> str:
         """

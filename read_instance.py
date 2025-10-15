@@ -276,8 +276,8 @@ if __name__ == "__main__":
     instance = Instance("instances_exemple/instance_0116_131933_Z2.txt")
     print(instance)
     print(f"\nFirst 2 orders: {instance.orders[:2]}")
-    print(f"\nFirst 5 arcs: {instance.graph["arcs"][:5]}")
-    print(f"\nFirst 3 locations: {instance.graph["locations"][:3]}")
+    print(f"\nFirst 5 arcs: {instance.graph['arcs'][:5]}")
+    print(f"\nFirst 3 locations: {instance.graph['locations'][:3]}")
 
     # Écrire l'objet Instance dans un fichier pickle
     with open("instance.pkl", "wb") as f:
