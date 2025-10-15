@@ -13,12 +13,13 @@ class Instance:
         self.products = []
         self.nb_orders = None
         self.orders = []
-        self.nb_vertices_intersections = None
-        self.departing_depot = None
-        self.arrival_depot = None
-        self.arcs = []
-        self.shortest_paths = []
-        self.location_coordinates = []
+        self.graph = {}
+        self.graph["nb_vertices_intersections"] = None
+        self.graph["departing_depot"] = None
+        self.graph["arrival_depot"] = None
+        self.graph["arcs"] = []
+        self.graph["shortest_distances"] = []
+        self.graph["locations"] = []
         
         if filename:
             self.read_from_file(filename)
@@ -63,11 +64,12 @@ class Instance:
                 # Read all products
                 while i < len(lines) and not lines[i].startswith('//'):
                     parts = list(map(int, lines[i].split()))
-                    if len(parts) >= 4:  # Idx, Location, Dim1, Dim2, ...
+                    if len(parts) >= 4:  # Idx, Location, Weight, Volume, ...
                         product = {
-                            'idx': parts[0],
-                            'location': parts[1],
-                            'dimensions': parts[2:]
+                            'id': parts[0],
+                            'id_loc': parts[1],
+                            'w': parts[2],
+                            'v': parts[3]
                         }
                         self.products.append(product)
                     i += 1
@@ -85,33 +87,44 @@ class Instance:
                     parts = list(map(int, lines[i].split()))
                     if len(parts) >= 3:  # Idx, M, NbProdInOrder, ...
                         order = {
-                            'idx': parts[0],
-                            'm': parts[1],
+                            'id': parts[0],
+                            'mc': parts[1],
                             'nb_prod_in_order': parts[2],
                             'products': []
                         }
                         # Parse product-quantity pairs
                         for j in range(3, len(parts), 2):
                             if j + 1 < len(parts):
-                                order['products'].append({
-                                    'product_idx': parts[j],
-                                    'quantity': parts[j + 1]
-                                })
+                                prod_idx = parts[j]
+                                quantity = parts[j + 1]
+                                # Trouver le produit correspondant dans self.products
+                                product_info = next((p for p in self.products if p['id'] == prod_idx), None)
+                                if product_info:
+                                    order['products'].append({
+                                        'quantity': quantity,
+                                        'product': product_info
+                                    })
+                                else:
+                                    # En cas d’erreur (produit non trouvé)
+                                    order['products'].append({
+                                        'quantity': quantity,
+                                        'product': {'idx': prod_idx, 'error': 'Product not found'}
+                                    })
                         self.orders.append(order)
                     i += 1
                 continue
-                
+
             elif line.startswith('//NbVerticesIntersections'):
                 i += 1
-                self.nb_vertices_intersections = int(lines[i])
+                self.graph["nb_vertices_intersections"] = int(lines[i])
                 
             elif line.startswith('//DepartingDepot'):
                 i += 1
-                self.departing_depot = int(lines[i])
+                self.graph["departing_depot"] = int(lines[i])
                 
             elif line.startswith('//ArrivalDepot'):
                 i += 1
-                self.arrival_depot = int(lines[i])
+                self.graph["arrival_depot"] = int(lines[i])
                 
             elif line.startswith('//Arcs'):
                 i += 1
@@ -123,11 +136,11 @@ class Instance:
                     parts = list(map(int, lines[i].split()))
                     if len(parts) >= 3:  # Start, End, Distance
                         arc = {
-                            'start': parts[0],
-                            'end': parts[1],
+                            'idDeparture': parts[0],
+                            'idArrival': parts[1],
                             'distance': parts[2]
                         }
-                        self.arcs.append(arc)
+                        self.graph["arcs"].append(arc)
                     i += 1
                 continue
                 
@@ -138,11 +151,11 @@ class Instance:
                     parts = list(map(int, lines[i].split()))
                     if len(parts) >= 3:  # LocStart, LocEnd, ShortestPath
                         path = {
-                            'loc_start': parts[0],
-                            'loc_end': parts[1],
-                            'shortest_path': parts[2]
+                            'idDeparture': parts[0],
+                            'idArrival': parts[1],
+                            'distance': parts[2]
                         }
-                        self.shortest_paths.append(path)
+                        self.graph["shortest_distances"].append(path)
                     i += 1
                 continue
                 
@@ -162,7 +175,7 @@ class Instance:
                             'y': int(parts[2]),
                             'name': ' '.join(parts[3:]).strip('"')
                         }
-                        self.location_coordinates.append(location)
+                        self.graph["locations"].append(location)
                     i += 1
                 continue
                 
@@ -251,20 +264,20 @@ class Instance:
   Mixed Orders Allowed: {self.mixed_orders_allowed}
   Products Count: {len(self.products)}
   Orders Count: {len(self.orders)}
-  Vertices Intersections: {self.nb_vertices_intersections}
-  Departing Depot: {self.departing_depot}
-  Arrival Depot: {self.arrival_depot}
-  Arcs Count: {len(self.arcs)}
-  Shortest Paths Count: {len(self.shortest_paths)}
-  Locations Count: {len(self.location_coordinates)}"""
+  Vertices Intersections: {self.graph["nb_vertices_intersections"]}
+  Departing Depot: {self.graph["departing_depot"]}
+  Arrival Depot: {self.graph["arrival_depot"]}
+  Arcs Count: {len(self.graph["arcs"])}
+  Shortest Paths Count: {len(self.graph["shortest_distances"])}
+  Locations Count: {len(self.graph["locations"])}"""
 
 # Usage
 if __name__ == "__main__":
-    instance = Instance("instances_exemple/instance_0116_131933_Z1.txt")
+    instance = Instance("instances_exemple/instance_0116_131933_Z2.txt")
     print(instance)
     print(f"\nFirst 2 orders: {instance.orders[:2]}")
-    print(f"\nFirst 5 arcs: {instance.arcs[:5]}")
-    print(f"\nFirst 3 locations: {instance.location_coordinates[:3]}")
+    print(f"\nFirst 5 arcs: {instance.graph["arcs"][:5]}")
+    print(f"\nFirst 3 locations: {instance.graph["locations"][:3]}")
 
     # Écrire l'objet Instance dans un fichier pickle
     with open("instance.pkl", "wb") as f:
