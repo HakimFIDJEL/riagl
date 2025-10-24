@@ -41,7 +41,7 @@ class WriteOutput(AbstractKnowledgeSource):
         # Generate solution lines
         lines: list[str] = []
         lines.append("//NbTournees")
-        lines.append(str(len(self.tours)))
+        lines.append(str(len(self.blackboard.output.tours)))
 
         for tour in self.blackboard.output.tours:
             lines.append("//IdTournes NbColis")
