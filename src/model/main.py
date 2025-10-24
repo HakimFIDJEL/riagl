@@ -3,7 +3,7 @@ from blackboard.blackboard import Blackboard
 from controller.controller import Controller
 from knowledge_sources.read_instance import ReadInstance
 from knowledge_sources.algoV1 import AlgoV1
-from model.knowledge_sources.write_output import WriteOutput
+from knowledge_sources.write_output import WriteOutput
 
 def main():
     # Build absolute path to instance: src/instances_exemple/<file>
@@ -27,7 +27,9 @@ def main():
     # Optional: print a small summary from algorithm output
     if getattr(blackboard, "output", None):
         out = blackboard.output
-        print(f"AlgoV1 produced {len(out.get('tours', []))} tours; distance={out.get('travelled_distance', 0)}; stops={out.get('crossed_locations', 0)}")
+        print(f"AlgoV1 produced {len(out.tours)} tours; \
+            distance={out.travelled_distance}; \
+            stops={out.crossed_locations}")
 
 if __name__ == "__main__":
     main()

@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 
 from knowledge_sources.abstract_knowledge_source import AbstractKnowledgeSource
 from utils.instance import Instance
+from utils.solution import Output
 
 
 @dataclass
@@ -317,14 +318,16 @@ class AlgoV1(AbstractKnowledgeSource):
 
         orders_out = [{"id": oid, "nbr_boxes": orders_out_map.get(oid, 0)} for oid in sorted(orders_out_map)]
 
-        self.blackboard.output = {
-            "filename": getattr(self.blackboard, "instance_path", "instance.txt"),
-            "travelled_distance": total_travelled_distance,
-            "crossed_locations": total_crossed_locations,
-            "avg_weight": avg_weight,
-            "avg_volume": avg_volume,
-            "tours": tours_out,
-            "orders": orders_out,
-        }
+        output = Output(
+            filename=getattr(self.blackboard, "instance_path", "instance.txt"),
+            travelled_distance=total_travelled_distance,
+            crossed_locations=total_crossed_locations,
+            avg_weight=avg_weight,
+            avg_volume=avg_volume,
+            tours=tours_out,
+            orders=orders_out,
+        )
+
+        self.blackboard.output = output
 
         return self.blackboard

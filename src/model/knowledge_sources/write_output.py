@@ -33,7 +33,8 @@ class WriteOutput(AbstractKnowledgeSource):
 
     def process(self):
         # Create solutions directory and path
-        os.makedirs("solutions", exist_ok=True)
+        os.makedirs("src/solutions", exist_ok=True)
+        os.makedirs("src/solutions_exemple", exist_ok=True)
         path = self.blackboard.instance_path.replace(
             "instances", "solutions"
         ).replace(".txt", "_sol.txt")
@@ -45,15 +46,15 @@ class WriteOutput(AbstractKnowledgeSource):
 
         for tour in self.blackboard.output.tours:
             lines.append("//IdTournes NbColis")
-            lines.append(f"{tour.id} {len(tour.boxes)}")
+            lines.append(f"{tour["id"]} {len(tour["boxes"])}")
             lines.append("//IdColis IdCommandeInColis NbProducts IdProd1 " \
                 "QtyProd1 IdProd2 QtyProd2 ...")
 
-            for box in tour.boxes:
-                nb_products = len(box.boxe_products)
-                parts = [str(box.id), str(box.order_id), str(nb_products)]
-                for bp in box.boxe_products:
-                    parts.extend([str(bp.product_id), str(bp.quantity)])
+            for box in tour["boxes"]:
+                nb_products = len(box["boxe_products"])
+                parts = [str(box["id"]), str(box["order_id"]), str(nb_products)]
+                for bp in box["boxe_products"]:
+                    parts.extend([str(bp["product_id"]), str(bp["quantity"])])
                 # l’exemple a un espace final, on le reproduit
                 lines.append(" ".join(parts) + " ")
 
