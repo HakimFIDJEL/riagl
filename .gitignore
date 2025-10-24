@@ -1,0 +1,14 @@
+# All pyc files
+*.pyc
+
+# Instances files
+instances/
+instances/*
+instances_exemple/
+instances_exemple/*
+
+# Solution files
+solutions/
+solutions/*
+solutions_exemple/
+solutions_exemple/*
