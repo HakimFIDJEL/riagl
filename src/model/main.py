@@ -20,7 +20,6 @@ def main():
     # Add knowledge sources
     blackboard.add_knowledge_source(ReadInstance(blackboard))
     blackboard.add_knowledge_source(AlgoV1(blackboard))
-    #blackboard.add_knowledge_source(AlgoV1(blackboard))
     blackboard.add_knowledge_source(WriteOutput(blackboard))
 
     # Process and get results
