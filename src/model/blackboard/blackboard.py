@@ -24,8 +24,8 @@ class Blackboard(object):
         #...
 
         # Model output
-        self.output = Output
-        self.formatted_output = dict()
+        self.output: Output
+        self.formatted_output: dict
 
     def set_instance_path(self, path: str):
         """Sets the path to the instance file
