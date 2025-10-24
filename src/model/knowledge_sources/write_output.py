@@ -46,7 +46,7 @@ class WriteOutput(AbstractKnowledgeSource):
         for tour in self.blackboard.output.tours:
             lines.append("//IdTournes NbColis")
             lines.append(f"{tour.id} {len(tour.boxes)}")
-            lines.append("//IdColis IdCommandeInColis NbProducts IdProd1" \
+            lines.append("//IdColis IdCommandeInColis NbProducts IdProd1 " \
                 "QtyProd1 IdProd2 QtyProd2 ...")
 
             for box in tour.boxes:
