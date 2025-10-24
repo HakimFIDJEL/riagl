@@ -1,3 +1,6 @@
+from utils.instance import Instance
+from utils.solution import Output
+
 class Blackboard(object):
     """Blackboard class that stores data and knowledge sources
 
@@ -15,13 +18,13 @@ class Blackboard(object):
 
         # Configurations
         self.instance_path: str
-        self.instance: dict
+        self.instance: Instance
 
         # Intermediate data
         #...
 
         # Model output
-        self.output = dict()
+        self.output = Output
         self.formatted_output = dict()
 
     def set_instance_path(self, path: str):
