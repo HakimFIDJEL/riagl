@@ -24,14 +24,14 @@ class Blackboard(object):
         self.output = dict()
         self.formatted_output = dict()
 
-        def set_instance_path(self, path: str):
-            """Sets the path to the instance file
+    def set_instance_path(self, path: str):
+        """Sets the path to the instance file
 
-            Attributes
-            ----------
-                path (str): path to the instance file
-            """
-            self.instance_path = path
+        Attributes
+        ----------
+            path (str): path to the instance file
+        """
+        self.instance_path = path
 
     def add_knowledge_source(self, knowledge_source):
         """Adds a new knowlegde source to the blackboard

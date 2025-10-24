@@ -1,11 +1,11 @@
 from blackboard.blackboard import Blackboard
 from controller.controller import Controller
-from src.model.knowledge_sources.read_instance import ReadInstance
-from src.model.knowledge_sources.algoV1 import AlgoV1
-from src.model.knowledge_sources.transform_output import TransformOutput
+from knowledge_sources.read_instance import ReadInstance
+from knowledge_sources.algoV1 import AlgoV1
+from knowledge_sources.transform_output import TransformOutput
 
 def main():
-    instance_file = "instances_exemple/instance_0116_131933_Z2.txt"
+    instance_file = "src/instances_exemple/instance_0116_131933_Z2.txt"
 
     # Initialize blackboard and controller
     blackboard = Blackboard()

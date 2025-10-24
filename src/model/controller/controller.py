@@ -1,6 +1,3 @@
-from utils.config import LOGGER
-
-
 class Controller(object):
     """Controller that handles calling the knowledge sources
 
@@ -19,12 +16,12 @@ class Controller(object):
         """
         for knowledge_source in self.blackboard.knowledge_sources:
             ks_name = type(knowledge_source).__name__
-            LOGGER.debug(f"##### Running knowledge source {ks_name} #####")
+            print(f"##### Running knowledge source {ks_name} #####")
 
             # Verify that the knowledge source can be executed
             assert knowledge_source.verify()
-            LOGGER.debug(f"Verify {ks_name} : OK -> start processing")
+            print(f"Verify {ks_name} : OK -> start processing")
 
             # Execute the knowledge source
             knowledge_source.process()
-            LOGGER.debug(f"##### End Processing {ks_name} #####")
+            print(f"##### End Processing {ks_name} #####")
