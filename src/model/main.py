@@ -3,6 +3,7 @@ from blackboard.blackboard import Blackboard
 from controller.controller import Controller
 from knowledge_sources.read_instance import ReadInstance
 from knowledge_sources.algoV1 import AlgoV1
+from model.knowledge_sources.write_output import WriteOutput
 
 def main():
     # Build absolute path to instance: src/instances_exemple/<file>
@@ -19,6 +20,8 @@ def main():
     # Add knowledge sources
     blackboard.add_knowledge_source(ReadInstance(blackboard))
     blackboard.add_knowledge_source(AlgoV1(blackboard))
+    #blackboard.add_knowledge_source(AlgoV1(blackboard))
+    blackboard.add_knowledge_source(WriteOutput(blackboard))
 
     # Process and get results
     controller.run_knowledge_sources()
