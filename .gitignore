@@ -1,1 +1,8 @@
-instance.pkl
+# All pyc files
+*.pyc
+
+# Instances files
+instances/
+instances/*
+instances_exemple/
+instances_exemple/*
