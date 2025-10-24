@@ -36,7 +36,7 @@ class Tour:
     def __init__(self, id: int, boxes: list[Boxe]) -> None:
         # (integer) Identifiant de la tournée
         self.id: int = id
-        # (Boxes) Information sur les colis
+        # (Boxe) Information sur les colis
         self.boxes : list[Boxe] = boxes
 
 class Output:
